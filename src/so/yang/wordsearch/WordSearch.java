@@ -6,6 +6,9 @@ import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 
+import so.yang.wordsearch.util.DAO;
+import so.yang.wordsearch.util.MyQueue;
+
 public class WordSearch {
 
 	/**
@@ -26,52 +29,34 @@ public class WordSearch {
 	}
 
 	/**
-	 * Main logic behind the screen, two JOptionPane: fileName and word.
+	 * two JOptionPane: fileName and word.
 	 */
 	public void startApp() {
-		
+
 		do {
 			fileName = JOptionPane.showInputDialog(null,
-					"What is your file name?","myNovel.txt");
-			myScanner = this.getFileScannerFromString(fileName);
+					"What is your file name?", "myNovel.txt");
+			myScanner = DAO.getFileScannerFromString(fileName);
 		} while (myScanner == null);
 
 		//
 		word = JOptionPane.showInputDialog(null, "In " + fileName
-				+ "\nWhich word you want to search?","I");
-		
+				+ "\nWhich word you want to search?", "I");
+
 		result = this.searchWordInFile(word);
-		if(result.length() < 6)
-		{
+		if (result.length() < 6) {
 			result = "There is no such word in the file: " + fileName;
 		}
 		JOptionPane.showConfirmDialog(null, result);
 		System.exit(0);
 	}
+
 	
 
 	/**
-	 * Precondition:
+	 * Search a word in the file
 	 * 
-	 * @param fileName
-	 *            we expect this file exist.
-	 * @return scanMyFile this may be none
-	 */
-	private Scanner getFileScannerFromString(String fileName) {
-		Scanner scanMyFile = null;
-		try {
-			FileReader myFile = new FileReader(fileName);
-			scanMyFile = new Scanner(myFile);
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			
-		}
-		return scanMyFile;
-	}
-	
-	/**
-	 * Search the file with the scanner provided in the parameter
-	 * @param scanner 
+	 * @param word
 	 * @return the result
 	 */
 	private String searchWordInFile(String word) {
@@ -83,30 +68,14 @@ public class WordSearch {
 			System.out.println(myQueue.toString(" "));
 
 			if (isLastElementTarget) {
-				//System.out.println("Found one");
-				sb.append(myQueue.toString(" ")+"\n");
+				// System.out.println("Found one");
+				sb.append(myQueue.toString(" ") + "\n");
 				isLastElementTarget = false;
-			}else if(aString.equals(this.word))
-			{
+			} else if (aString.equals(this.word)) {
 				isLastElementTarget = true;
 			}
 		}
 		return sb.toString();
 	}
-
-	
-	/*
-	private boolean isStringParsableToInt(String str) {
-		boolean flag = true;
-		try {
-			int i = Integer.parseInt(str);
-		} catch (NumberFormatException e) {
-			flag = false;
-		}
-
-		return flag;
-		
-	}
-	*/
 
 }
