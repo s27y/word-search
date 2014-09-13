@@ -66,13 +66,14 @@ public class MyQueue {
 		if(size()== n -1)
 		{
 			try {
-				this.dequeue();
+				String s =this.dequeue();
 			} catch (EmptyQueueException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		this.queueArray[r] = str;
+		System.out.println(str);
 		r = (r+1) % n;
 		
 	}
@@ -95,24 +96,31 @@ public class MyQueue {
 	}
 	
 	@Override
+	/**
+	 * This function does not use dequeue to retrieve string in the queue
+	 * string will not be REMOVED from the queue!
+	 */
 	public String toString() {
-		String str ="";
-		String temp = "";
-		for(int i = 0; i<3; i++)
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i<this.queueLength; i++)
 		{
-			try {
-				temp = this.dequeue();
-			} catch (EmptyQueueException e1) {
-				temp = "null";
-			}
-			str+=temp;
-			if(i!=2)
-			{
-				str+=" \n";
-			}
+			sb.append(this.queueArray[i]);
 		}
-		return str;
-		
+		return sb.toString();
+	}
+	
+	/**
+	 * Return the whole queue without remove them from the queue
+	 * @param delimiter an element between each string
+	 * @return
+	 */
+	public String toString(String delimiter) {
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i<this.queueLength; i++)
+		{
+			sb.append(this.queueArray[(f+i)%n]+" ");
+		}
+		return sb.toString();
 	}
 	
 }
